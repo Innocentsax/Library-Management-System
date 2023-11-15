@@ -8,7 +8,6 @@ import lombok.Getter;
 public enum LibraryStatus {
 
         ACTIVE("ACTIVE"),
-        DELETE("DELETE"),
         INACTIVE("INACTIVE"),
         LOCKED("LOCKED");
 
