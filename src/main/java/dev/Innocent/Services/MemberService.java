@@ -1,5 +1,6 @@
 package dev.Innocent.Services;
 
+import dev.Innocent.Model.Book;
 import dev.Innocent.Model.Member;
 import org.springframework.http.ResponseEntity;
 
@@ -26,5 +27,7 @@ public interface MemberService {
     void deleteMember(Member member);
 
     Long getStudentsCount();
+
+    boolean hasUsage(Member member);
 
 }

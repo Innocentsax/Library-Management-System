@@ -1,10 +1,11 @@
 package dev.Innocent.Services.ServiceImpl;
 
+import dev.Innocent.Model.Book;
 import dev.Innocent.Model.Member;
 import dev.Innocent.Repository.MemberRepository;
+import dev.Innocent.Services.IssuedService;
 import dev.Innocent.Services.MemberService;
 import dev.Innocent.Utils.Constants;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,12 @@ public class MemberServiceImpl implements MemberService {
 
     private MemberRepository memberRepository;
 
+    private IssuedService issuedService;
+
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository, IssuedService issuedService) {
         this.memberRepository = memberRepository;
+        this.issuedService = issuedService;
     }
 
     @Override
@@ -73,5 +77,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Long getStudentsCount() {
         return memberRepository.countByType(Constants.MEMBER_STUDENT);
+    }
+
+    @Override
+    public boolean hasUsage(Member member) {
+        return issuedService.getCountByMember(member) > 0;
     }
 }

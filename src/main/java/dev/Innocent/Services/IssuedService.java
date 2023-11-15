@@ -20,4 +20,5 @@ public interface IssuedService {
     Issued save(Issued issued);
 
    void deleteIssuedBook(Long id);
+
 }
