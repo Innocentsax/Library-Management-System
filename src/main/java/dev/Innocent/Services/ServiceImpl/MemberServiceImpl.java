@@ -6,6 +6,7 @@ import dev.Innocent.Repository.MemberRepository;
 import dev.Innocent.Services.IssuedService;
 import dev.Innocent.Services.MemberService;
 import dev.Innocent.Utils.Constants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private MemberRepository memberRepository;

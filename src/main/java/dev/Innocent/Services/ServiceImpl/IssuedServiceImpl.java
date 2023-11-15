@@ -15,6 +15,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class IssuedServiceImpl implements IssuedService {
     private IssuedRepository issuedRepository;
 

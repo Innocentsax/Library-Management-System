@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;

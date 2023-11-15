@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ZenUserServiceImpl implements ZenUserService {
 
     private ZenUserRepository userRepository;

@@ -4,6 +4,7 @@ import dev.Innocent.Model.IssuedBook;
 import dev.Innocent.Repository.IssuedBookRepository;
 import dev.Innocent.Services.IssuedBookService;
 import dev.Innocent.Utils.Constants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class IssuedBookServiceImpl implements IssuedBookService {
 
     private IssuedBookRepository issuedBookRepository;
