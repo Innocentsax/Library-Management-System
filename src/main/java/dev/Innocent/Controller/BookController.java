@@ -1,17 +1,18 @@
 package dev.Innocent.Controller;
 
-import dev.Innocent.Model.Category;
+import dev.Innocent.Model.Book;
 import dev.Innocent.Services.BookService;
 import dev.Innocent.Services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("Book")
+@RequestMapping("/api/books")
 public class BookController {
 
     private BookService bookService;
@@ -23,19 +24,57 @@ public class BookController {
         this.categoryService = categoryService;
     }
 
-    @RequestMapping("/getBooks")
-    public List<Category> getBooks() {
-        return categoryService.getAllBySort();
+    @GetMapping("/list")
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> books = bookService.getAll();
+        return ResponseEntity.ok(books);
     }
 
-    @RequestMapping(value = "/getBooksByCategory", method = RequestMethod.GET)
-    public List<Category> getBooksByCategory(Long id) {
-        return categoryService.getAllBySort();
+    @GetMapping("/add")
+    public ResponseEntity<Book> addBookPage() {
+        return ResponseEntity.ok(new Book());
     }
 
-    @RequestMapping(value = "/getBooksByTag", method = RequestMethod.GET)
-    public List<Category> getBooksByTag(String tag) {
-        return categoryService.getAllBySort();
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<Book> editBookPage(@PathVariable(name = "id") Long id) {
+        Book book = bookService.getBookById(id);
+        if (book != null) {
+            return ResponseEntity.ok(book);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> saveBook(@Valid @RequestBody Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Invalid book data");
+        }
+
+        if (book.getId() == null) {
+            if (bookService.getBookByTag(book.getTag()) != null) {
+                return ResponseEntity.badRequest().body("Tag already exists");
+            } else {
+                bookService.addNewBook(book);
+                return ResponseEntity.ok("'" + book.getTitle() + "' is added as a new Book.");
+            }
+        } else {
+            Book updatedBook = bookService.save(book);
+            return ResponseEntity.ok("Changes for '" + book.getTitle() + "' are saved successfully.");
+        }
+    }
+
+    @GetMapping("/remove/{id}")
+    public ResponseEntity<String> removeBook(@PathVariable(name = "id") Long id) {
+        Book book = bookService.getBookById(id);
+        if (book != null) {
+            if (bookService.hasUsage(book)) {
+                return ResponseEntity.badRequest().body("Book is in use");
+            } else {
+                bookService.deleteBook(id);
+            }
+        }
+        return ResponseEntity.ok("Book removed successfully");
     }
 
 
