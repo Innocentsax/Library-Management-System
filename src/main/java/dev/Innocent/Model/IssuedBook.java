@@ -33,4 +33,9 @@ public class IssuedBook extends BaseEntity<Long> implements Serializable {
     private Issued issued;
 
     private Integer returned;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @JsonIgnore
+    private Member member;
 }
