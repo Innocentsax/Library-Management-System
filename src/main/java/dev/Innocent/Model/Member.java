@@ -1,6 +1,7 @@
 package dev.Innocent.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import dev.Innocent.Validation.ZenByZenith;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,6 +38,7 @@ public class Member extends BaseEntity<Long> implements Serializable {
         private String lastName;
 
         @NotNull(message = "Email is required")
+        @ZenByZenith(value = "zenbyzenith", message = "Email is not valid")
         private String email;
 
         @NotNull(message = "Contact number is required")
