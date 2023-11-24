@@ -1,6 +1,8 @@
 package dev.Innocent.AOP;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -22,4 +24,19 @@ public class LoggingAOP {
 
     @Pointcut("forControllerPackage() || forServicePackage() || forRepositoryPackage()")
     private void forAppFlow(){}
+
+    @Before("forAppFlow()")
+    public void before(JoinPoint theJoinPoint){
+        // Display method we are calling
+        String thMethod = theJoinPoint.getSignature().toShortString();
+        myLogger.info("====>> in @Before: calling method: " + thMethod);
+
+        // Get the arguments
+        Object[] args = theJoinPoint.getArgs();
+
+        // Loop through and display args
+        for(Object tempArg : args){
+            myLogger.info("====>>>> argument: " + tempArg);
+        }
+    }
 }
