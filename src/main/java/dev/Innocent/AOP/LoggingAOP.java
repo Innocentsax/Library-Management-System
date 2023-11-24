@@ -16,4 +16,7 @@ public class LoggingAOP {
 
     @Pointcut("execution(* dev.Innocent.Services.*.*(..))")
     private void forServicePackage(){}
+
+    @Pointcut("execution(* dev.Innocent.Repository.*.*(..))")
+    private void foRepositoryPackage(){}
 }
